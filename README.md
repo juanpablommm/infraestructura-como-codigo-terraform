@@ -16,4 +16,4 @@ Ahora bien algunas herramientas de gestion de configuraciones tambien definir in
 * **lenguaje declarativo vs lenguaje procedural o imperativo**
 * El lenguaje declarativo es cuando le decimos anuestras heramientas o lenguajes que hacer, sin importar el como hacerlo; terraform utliza la programacion declarativa
 
-* El lengua imperativo o procedural, se centra en el como hacerlo; ansible utliza la programacion impetativa
+* El lengua imperativo o procedural, se centra en el como hacerlo; ansible utliza la programacion impetativa.

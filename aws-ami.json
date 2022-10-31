@@ -1,12 +1,3 @@
-### CURSO DE INFRACESTRUCTURA COMO CODIGO TERRAFORM
-
-* Clase 6, **Creacion de un archivo de definicion en packer para crear un AMi en aws**
-
-**packer =>** packer es una herramienta open source que permite la creacion de imagenes de 
-maquinas identicas para varias plataformas a partir de una unica plantilla de origin.
-
-1. creamos el archivo de definicion de packer, el cual sera en formato json "aws-ami.json"
-```js 
 {
     /*en los builders, podemos crear mas de uno al mismo tiempo; por lo que este objeto sera igual
     a un array en donde se crear un objeto por cada uno de los builders que queramos crear
@@ -88,15 +79,3 @@ maquinas identicas para varias plataformas a partir de una unica plantilla de or
 
     ]
 }
-```
-2. una vez tengamos el archivo de defincion para la creacion del AMI, lo que haremos es validar
-que este correctamente definido con packer, ejecutanto:
-```shell
-packer validate ./aws-ami.json
-```
-3. si la validacion es correcta, se encuntra vien definido, podemos proceder a la construccion de la AMI con nustro archico, ejecutando el comando:
-```shell
-packer build ./aws-ami.json
-```
-Lo que creara correctamente a AMI, en aws, con los parovisionamientos que se configuraron, en este caso, la colocacion de la llave ssh, y la instalacion de docker mediante el scrip
-![image](https://user-images.githubusercontent.com/62717509/199103437-cc940e47-b6f0-4c28-8ed8-3d3b5ae71430.png)

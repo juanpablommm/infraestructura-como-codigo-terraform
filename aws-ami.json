@@ -1,0 +1,34 @@
+{
+    "builders": [
+        {
+            "type": "amazon-ebs", 
+            "access_key": "mi-access_key",
+            "secret_key": "mi-secret_key",
+            "region": "us-east-1",
+            "source_ami": "ami-0a80beaaf9204a32f",
+            "source_ami_filter": {
+                "owners": ["975428265677"],
+                "most_recent": true
+            },
+            "instance_type": "t2.micro",
+            "ssh_username": "ec2-user",
+            "ami_name": "packer-demo-segunda-pruba-curso-UTLIMA"
+        }
+    ],
+    "provisioners": [
+        {
+            "type": "file",
+            "source": "scripts/packer_key.pub",
+            "destination": "~/.ssh/"
+        },
+        {
+            "type": "shell",
+            "inline": ["cat ~/.ssh/packer_key.pub >> ~/.ssh/authorized_keys"]
+        },
+        {
+            "type": "shell",
+            "script": "scripts/instalar-docker.sh"
+        }
+
+    ]
+}

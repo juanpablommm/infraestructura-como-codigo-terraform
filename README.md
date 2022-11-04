@@ -1,30 +1,38 @@
 ### CURSO DE INFRACESTRUCTURA COMO CODIGO TERRAFORM
 
-* Clase 7, **Conceptos claves de Dcoker**
-Docker nos permite crear infraestructura inmutable, nos permite encapsular y portar nuestras aplicaciones, en una misma imagen de docker nostros podemos tener definido un sistema operativo, los paquestes y nuestra aplicacion, de tal forma que la construimos una vez y la podemos instanciar n veces.
-* **imagen=>** una imagen de docker basicamente es una capa creada a partir de un archivo denominado docker file, en el cual creamos todas nuestra definiciones, instalamos todos los paquetes, se crea todo el directorio, todo en un archivo denominado docker file, luego apartir de el docker file se crea una imagen con todas las definiciones que se pusieron en este.
-* **container=>** es una instanica o son instanicas de imagenes de docker, donde podemos instanciar n veces una imagen, los container no tienen estado, se puden crear y destruir, no deverian guardar ninguna informacion porque son volatiles, no tienen ningun estado.
-ejemplo de un docker file:
+* Clase 8, **creacion de una imagen de docker a partir de un archivo de defincion de docker file**,
+vamos a utilizar una configuracion de gninx, con una imegen del mismo, para subirlo en el container, un archivo de configuracion de nuestra aplicacion como tal, en donde se especifican cosa como la ruta, donde encontrar la palicacion que vamos a correr, la cual es un simple arhivo html, con un texto e imagen.
 ```
-# Super simple example of Dockerfile
-#
-FROM ubuntu:latest
-MANTAiNER Juan Pablo "juanpablomontoya618@gamil.com"
-RUN apt-get update
-RUN apt-get install -y python-pip wget
-RUN pip install Flask
+FROM nginx
+/*primero indicamos de que imagen va a salir, una imagen base, la cula en este caso
+es nginx*/
 
-ADD hello.py /home/hello.py
+COPY nginx.conf /etc/nginx/nginx.conf
+/*vamos a copiar el archivo de configuraciones que tenemos de nginx y lo vamos a sobreescribir al archivo de conifguraciones de nfinx, que se ecnutnra en la ruta especificada*/
 
-WORDIR /home
+COPY hello-world.conf /etc/nginx/conf.d/hello-world.conf
+/*copiamos el archivo de configuracion de nuestra aplicacion y lo colocamos dentro de la imagen en la ruta especificada*/
 
-ENTRYPOINT ["/home/hello.py"]
+RUN mkdir -p /usr/share/nginx/public/hello
+/*creamos una carpeta donde vamos a colocar nuestro index.html, mandamos las intruccion de crear la carpeta con el argumento -p para en caso de que la capeta de la ruta que estamos especificando ya exite solo ignore el error*/
+
+COPY index.html /usr/share/nginx/html/hello/index.html
+/*copiamos nuestor index.html en la carpta que acabos de crear par nuestra aplicacion*/
+
+EXPOSE 80
+/*finalemnte esponemos el puerto para que lo podeamos utliar en nuestra maquina, por lo regular el puerto en el que correr nginx es el 80, por ende lo utlizamos*/
 
 ```
 
-* lo primero es indicar de donde o de que imagen vamos salir con **FROM**, en este caso estamos saliendo de una imagen de ubuntu con la ultima version.
-* lo segundo a especificar es el **MANTAINER** donde se meciona nombre o correo electronico para hacer referencia a quien le da maneteimiento a dicha imagen, este es opcional
-* tambien tenemos **RUN** con esta plabra reservado vamos a configurar todo, porque nos sirve para ejecutar comandos, comandos para instalar, para crear, para compartir, todos los comando que necesitemos para nuestra aplicacion
-* el comando **ADD** lo podemos usar para copiar archivos desde nustra maquina local hacia la imagen docker que estamos creando
-* el **WORDIR** con este comando le mandamos el path de donde nosotros queremos que levante la aplicacion
-* el **ENTRYPOINT** nos permitira colocar lo que nosotros queremos que haga cuando el container se levante, regularmente lo que queremos que haga cuando el container se levante es que levante nuestra apliacacion, lo podemos enviar por comando, enviar un script que nos diga que hacer, etc..
+despues de tener el archivo Docker file, construiremos nuestra imagen a parti de ese mismo archiv, con el comando ```docker build -t hello-platzi:v1 --no-cache .```
+con el argumento -t le enviamos el nombre de la imagen que queremos construir, le podemos colocar tag de versiones, simplemnte con los :v1 para darle el versionamiento a nuestra imagen.
+con el parametro de --no-cache, lo que haremos es que si ya yo intente previamente crear esa imagem , pues ignore las cpas previas que se hallan creado y lo haga desde cero.
+el ultimo comando que le mandamos al momento de constuir la imagen es la ruta donde se encuentra el Dockerfile, en este caso como se encuentra en el mismo path simplemtne utlizamos el .
+
+* una vez creada la imagen de docker a partir de nuestro Dockerfile, podemos proceder a crear nuestro contenedor, con el comando ```docker create -p 3000:80 nombre_imagen```
+donde lo estamos creando indicando el puerto por el que va acorrer en nuestra maquina, y el puerto que definos en el que iva a correr la aplicacion en el archivo DockerFile
+* para ccorrer el container ```docker start id_contiaer o nombre_container```
+* para para detener el contener ```docker stop id_contiaer o nombre_container```
+* para para elimar el container ```docker rm id_contiaer o nombre_container```
+* para para ver los contianers ```docker ps -a```
+* subir la imagen de docker a dockerhub, para esto debemos logearlos en la consola, con el comando ```docker login``` por lo que nos pedira el username y password, posterior a esto para subir la imagen a nuestra cuenta de dockerhub, simplmente jecutamos el comando ```dcoker push nombre-imagen```

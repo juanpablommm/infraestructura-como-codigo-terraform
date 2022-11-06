@@ -1,13 +1,10 @@
 provider "aws" {
   region     = "us-east-1"
-  access_key = "mi-access-key"
-  secret_key = "mi-secret-key"
+  access_key = "mi_access_key"
+  secret_key = "mi-secret_key"
 }
 resource "aws_instance" "terraform-platzi-instance" {
-  ami           = "ami-0ca0c67309196175e"
-  instance_type = "t2.micro"
-  tags = {
-    Name       = "practica1-terraform-ultima-version"
-    Enviroment = "Dev"
-  }
+  ami           = var.ami_id
+  instance_type = var.instance_type
+  tags           = var.tags
 }

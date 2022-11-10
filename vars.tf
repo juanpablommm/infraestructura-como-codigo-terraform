@@ -2,7 +2,6 @@ variable "ami_id" {
   default     = ""
   description = "esta varaible es el ide del ami"
   type        = string
-
 }
 
 variable "instance_type" {

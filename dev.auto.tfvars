@@ -5,7 +5,7 @@ tags = {
   Enviroment = "Dev"
   CreateBy   = "terraform"
 }
-sg_name = "grupo_seguridad_platzy"
+sg_name = "grupo_seguridad_platzy-segundo"
 ingress_rules = [
   {
     from_port   = "22"

@@ -35,3 +35,13 @@ variable "acl" {
   description = "representacion del permiso que tendra el bucket, sera privado"
   default     = "private"
 }
+
+variable "egress_rules" {
+  type        = list(any)
+  description = "grupo de relgas de salida para la instancia"
+}
+
+variable "key_path" {
+  type = string
+  description = "este varible hace refenica al pacht local, donde tenemos la jkey para establcer conexion"
+}
